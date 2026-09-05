@@ -13,6 +13,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
 import org.wpilib.smartdashboard.SmartDashboard;
+import org.littletonrobotics.junction.ConsoleSource.Systemcore;
 import org.wpilib.command2.SubsystemBase;
 import org.wpilib.hardware.motor.Talon;
 
@@ -40,10 +41,9 @@ public class Shooter extends SubsystemBase {
     private double topRollerTargetRPS = 85;
 
     // TODO: get canbus number for the talons
-    private CANBus canBus0 = new CANBus();
-    private TalonFX farBottomRollerMotor = new TalonFX(Port.FAR_SHOOTER_BOTTOM_ROLLER_MOTOR, canBus0);
-    private TalonFX nearBottomRollerMotor = new TalonFX(Port.NEAR_SHOOTER_BOTTOM_ROLLER_MOTOR, canBus0);
-    private TalonFX topRollerMotor = new TalonFX(Port.SHOOTER_TOP_ROLLER_MOTOR, canBus0);
+    private TalonFX farBottomRollerMotor = new TalonFX(Port.FAR_SHOOTER_BOTTOM_ROLLER_MOTOR, CANBus.systemcore(0));
+    private TalonFX nearBottomRollerMotor = new TalonFX(Port.NEAR_SHOOTER_BOTTOM_ROLLER_MOTOR, CANBus.systemcore(0));
+    private TalonFX topRollerMotor = new TalonFX(Port.SHOOTER_TOP_ROLLER_MOTOR, CANBus.systemcore(0));
 
     public boolean enabled = false;
     public boolean autoDistance = true;
