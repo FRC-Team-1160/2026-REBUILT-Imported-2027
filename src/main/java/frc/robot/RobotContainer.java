@@ -39,6 +39,7 @@ import org.wpilib.driverstation.RobotState;
 import org.wpilib.smartdashboard.SendableChooser;
 import org.wpilib.smartdashboard.SmartDashboard;
 import org.wpilib.command2.Command;
+import org.wpilib.command2.CommandScheduler;
 import org.wpilib.command2.Commands;
 import org.wpilib.command2.FunctionalCommand;
 import org.wpilib.command2.InstantCommand;
@@ -379,7 +380,7 @@ public class RobotContainer {
             m_agitator.runAgitation(1);
             m_agitator.runGate(1);
             //turn on gate and agitator
-            repeatIntakeOuttakeCommand.schedule();
+            CommandScheduler.getInstance().schedule(repeatIntakeOuttakeCommand);
           }
         });
     
@@ -412,7 +413,7 @@ public class RobotContainer {
         m_intake.setIntakeDirection(intakeDirection.OFF);
         //turn intake off
         //have intake go in and out with shooter
-        spamIntakeSequence.schedule();
+        CommandScheduler.getInstance().schedule(spamIntakeSequence);
       } else {
         //if were already running a sequence then just return
         return;

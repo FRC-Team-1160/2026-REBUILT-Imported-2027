@@ -27,8 +27,7 @@ public class Intake extends SubsystemBase {
     private final SparkMaxConfig extenderMotorConfig;
     private final AlternateEncoderConfig extenderEncoderConfig;
 
-    //TODO: get canbus number for talons
-    private TalonFX intakeMotor = new TalonFX(Port.INTAKE_MOTOR, new CANBus());
+    private TalonFX intakeMotor = new TalonFX(Port.INTAKE_MOTOR, CANBus.systemcore(0));
 
     private DigitalInput armLimit = new DigitalInput(0);
     private boolean limitReached = !armLimit.get();

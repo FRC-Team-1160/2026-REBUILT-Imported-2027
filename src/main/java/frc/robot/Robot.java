@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
   public Robot() {
     m_robot_container = new RobotContainer();
     m_hubTimer = new HubTimer();
-    FollowPathCommand.warmupCommand().schedule();
+    CommandScheduler.getInstance().schedule(FollowPathCommand.warmupCommand());
     SignalLogger.enableAutoLogging(false);
     m_robot_container.m_drive.refreshAlliance();
   }
@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
     if (autonomous_command != null) {
       System.out.println("AUTO INITIALIZED");
       //m_robot_container.m_drive.resetGyroAngle();
-      autonomous_command.schedule();
+      CommandScheduler.getInstance().schedule(autonomous_command);;
     }
 
   }
