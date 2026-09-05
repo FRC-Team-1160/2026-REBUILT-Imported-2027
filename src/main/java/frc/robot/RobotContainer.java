@@ -27,7 +27,7 @@ import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Pose3d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.geometry.Transform2d;
-import org.wpilib.math.kinematics.ChassisSpeeds;
+// import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.networktables.NetworkTable;
 import org.wpilib.networktables.NetworkTableInstance;
 import org.wpilib.driverstation.DriverStation;
@@ -35,6 +35,7 @@ import org.wpilib.driverstation.DriverStation;
 //import frc.robot.commands.IntakeCommand.ToggleIntake;
 import org.wpilib.driverstation.Joystick;
 import org.wpilib.driverstation.MatchState;
+import org.wpilib.driverstation.POVDirection;
 import org.wpilib.driverstation.RobotState;
 import org.wpilib.smartdashboard.SendableChooser;
 import org.wpilib.smartdashboard.SmartDashboard;
@@ -452,7 +453,7 @@ public class RobotContainer {
         m_shooter.setModes(true,false,true,false);
         //give shooter time to rev up
         //slowly retract intake while shooting and such
-        slowRetractSequence.schedule();
+        CommandScheduler.getInstance().schedule(slowRetractSequence);
       } else {return;} //return if were already running a sequence
       },
       () -> {
@@ -468,14 +469,14 @@ public class RobotContainer {
 
     //extend/retract hopper
     //new control
-    new Trigger(() -> second_stick.getPOV() == 0).onTrue(
+    new Trigger(() -> second_stick.getDirectionDegrees() == 0).onTrue(
       new InstantCommand(() -> {
         m_intake.extendArm();
         m_intake.setModes(direction.EXTENDING, intakeMode.MANUAL);
         m_intake.setIntakeDirection(intakeDirection.OFF);
     }));
 
-    new Trigger(() -> second_stick.getPOV() == 180).onTrue(
+    new Trigger(() -> second_stick.getDirectionDegrees() == 180).onTrue(
       new InstantCommand(() -> {
         m_intake.retractArm();
         m_intake.setModes(direction.RETRACTING, intakeMode.AUTOMATIC);
