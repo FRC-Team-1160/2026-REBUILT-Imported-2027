@@ -43,7 +43,7 @@ public boolean isHubActive() {
 
   // We're teleop enabled, compute.
   double matchTime = MatchState.getMatchTime();
-  String gameData = MatchState.getGameData();
+  String gameData = MatchState.getGameData().orElse("");
   // If we have no game data, we cannot compute, assume hub is active, as its likely early in teleop.
   if (gameData.isEmpty()) {
     return true;
@@ -60,8 +60,8 @@ public boolean isHubActive() {
 
   // Shift was is active for blue if red won auto, or red if blue won auto.
   boolean shift1Active = switch (alliance.get()) {
-    case Red -> !redInactiveFirst;
-    case Blue -> redInactiveFirst;
+    case Alliance.RED -> !redInactiveFirst;
+    case Alliance.BLUE -> redInactiveFirst;
   };
 
   if (matchTime > 130) {
@@ -94,7 +94,7 @@ public int getShiftInterval(int matchTime) {
 
 public int getRemainingHubShift() {
     int remainingTime;
-    int matchTime = (int) DriverStation.getMatchTime();
+    int matchTime = (int) MatchState.getMatchTime();
     if (matchTime > 130) {return 0;}
     int shiftEnd = getShiftInterval(matchTime);
     remainingTime = matchTime - shiftEnd;

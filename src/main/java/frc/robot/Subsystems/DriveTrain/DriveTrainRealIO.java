@@ -5,7 +5,7 @@
 package frc.robot.Subsystems.DriveTrain;
 
 
-import com.studica.frc.AHRS;  //TODO not sure how to do this
+// import com.studica.frc.AHRS;  // not supported anymore
 
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
@@ -15,14 +15,15 @@ import java.util.Optional;
 import org.wpilib.driverstation.Alliance;
 import org.wpilib.driverstation.DriverStation;
 import org.wpilib.driverstation.MatchState;
+import org.wpilib.hardware.imu.OnboardIMU;
 import org.wpilib.smartdashboard.SmartDashboard;
 
 public class DriveTrainRealIO extends DriveTrain {
 
-  private AHRS gyro;
+  private OnboardIMU gyro;
 
-  public DriveTrainRealIO(){
-    gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+  public DriveTrainRealIO() {
+    gyro = new OnboardIMU(OnboardIMU.MountOrientation.FLAT);
     refreshGyro();
   }
 
@@ -34,8 +35,7 @@ public class DriveTrainRealIO extends DriveTrain {
             blueAlliance = !(alliance.get() == Alliance.RED);
           } else {blueAlliance = false;}
 
-        gyro.setAngleAdjustment(
-      blueAlliance ? 0 : 180);
+        // gyro.setAngleAdjustment(blueAlliance ? 0 : 180);
     }
   }
 
@@ -43,22 +43,24 @@ public class DriveTrainRealIO extends DriveTrain {
     return new SwerveModuleRealIO(drive_port, steer_port, sensor_port);
   }
 
+  // TODO correct for systemcore being upside down
   public Rotation2d getGyroAngle() {
     if (gyro != null) {
-      SmartDashboard.putNumber("lalala", Rotation2d.fromDegrees(gyro.getAngle()).getRotations());
-      return Rotation2d.fromDegrees(gyro.getAngle());} //gyro reports CW positive, negate to return CCW positive
+      Rotation2d yaw = gyro.getRotation2d();
+      SmartDashboard.putNumber("lalala", yaw.getRotations());
+      return yaw;} //gyro reports CW positive, negate to return CCW positive
     return new Rotation2d();
   }
 
   public double getGyroRate() {
     if (gyro != null) {
-      return gyro.getRate();
+      return gyro.getGyroRateZ(); // TODO check later
     } else {return 0;}
   }
 
   public void resetGyroAngle() {
     if (gyro == null) return;
-    gyro.zeroYaw();
+    gyro.resetYaw();
     //if (pose_estimator != null) pose_estimator.resetPose(new Pose2d(odom_pose.getX(), odom_pose.getY(), new Rotation2d()));
   }
 

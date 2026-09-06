@@ -270,11 +270,11 @@ public abstract class DriveTrain extends SubsystemBase {
 
     // change target wheel directions if the wheel has to rotate more than 90*
     for (int i = 0; i < module_states.length; i++) {
-      module_states[i].optimize(modules[i].getAngle());
+      module_states[i] = module_states[i].optimize(modules[i].getAngle());
     }
 
     // normalize wheel speeds of any are greater than max speed
-    SwerveDriveKinematics.desaturateWheelVelocities(module_states, Constants.Swerve.MAX_SPEED);
+    module_states = SwerveDriveKinematics.desaturateWheelVelocities(module_states, Constants.Swerve.MAX_SPEED);
     
     setModules(module_states);
 
