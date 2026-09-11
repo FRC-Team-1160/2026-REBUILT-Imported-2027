@@ -155,20 +155,6 @@ public class RobotContainer {
       m_drive.autoVisionMeasurement = true;
     });
 
-    // RunCommand alignHub = new RunCommand(() -> {
-    //   if (DriverStation.isAutonomous()) {
-    //     double angle_radiansPerSecond;
-    //     angle_radiansPerSecond = m_drive.getTurnToHub(); //* (m_limelightio.blueAlliance == true ? 1 : -1);
-
-    //     m_drive.setSwerveDrive(
-    //     0,0,
-    //     angle_radiansPerSecond
-    //     );
-
-    //     SmartDashboard.putNumber("auto angle", angle_radiansPerSecond);
-    //   }
-    // });
-
     NamedCommands.registerCommand("Enable Vision", enableVisionMeasurement);
     NamedCommands.registerCommand("Disable Vision", disableVisionMeasurement);
 
@@ -483,34 +469,6 @@ public class RobotContainer {
     }));
 
     //old control
-    // new JoystickButton(second_stick, 1).onTrue(
-    //   new InstantCommand(() -> {
-    //     if (m_intake.currentDirection == direction.RETRACTING) {
-    //     m_intake.extendArm();
-    //     m_intake.setModes(direction.EXTENDING, intakeMode.AUTOMATIC);
-    //     m_intake.setIntakeDirection(intakeDirection.IN);
-    //     } else {
-    //     m_intake.retractArm();
-    //     m_intake.setModes(direction.RETRACTING, intakeMode.AUTOMATIC);
-    //     }
-    //   })
-    // );
-
-    //running intake
-    //new control
-    // new JoystickButton(second_stick, 3).onTrue(
-    //   new InstantCommand(() -> {
-    //     intakeDirection iDirection = intakeDirection.IN;
-    //     if (second_stick.getRawButton(5)) {iDirection = intakeDirection.OUT;}
-    //     if (m_intake.currentIntakeDirection != intakeDirection.OFF && m_intake.currentIntakeDirection == iDirection) {
-    //       iDirection = intakeDirection.OFF;
-    //     }
-    //     m_intake.setModes(direction.IGNORE, intakeMode.MANUAL);
-    //     m_intake.setIntakeDirection(iDirection);
-    //   })
-    // );
-
-    //old control
     new Trigger(() -> second_stick.getRawButton(2)).whileTrue(
       new RunCommand(() -> {
         boolean forward = !second_stick.getRawButton(9);
@@ -523,17 +481,6 @@ public class RobotContainer {
       })
     );
 
-    // agitator + gate forward/reverse
-    //new control
-    // new JoystickButton(second_stick, 2).onTrue(
-    //   new InstantCommand(() -> {
-    //     int mult = 1;
-    //     if (second_stick.getRawButton(5)) {mult = -1;}
-    //     if (m_agitator.lastMult == mult) {mult = 0;}
-    //     m_agitator.runAgitation(mult);
-    //     m_agitator.runGate(mult);
-    //   }) 
-    // );
 
     //old control
     new Trigger(() -> (second_stick.getRawButton(1))).whileTrue(
@@ -561,12 +508,6 @@ public class RobotContainer {
             m_shooter.enabled = false;
           })
       );
-
-      // new Trigger(() -> second_stick.getRawButton(3)).whileTrue(
-      //   new RunCommand(() -> m_shooter.basketballin())
-      //     .finallyDo(m_shooter::stopMotors)
-      // );
-      //remnant from when we shot into the hoops lolololol
 
     // shooter test bindings
     new Trigger(() -> ((test_stick.getRawButton(4) || test_stick.getRawButton(1)) && 
