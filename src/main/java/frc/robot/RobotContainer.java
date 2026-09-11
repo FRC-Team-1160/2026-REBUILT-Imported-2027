@@ -343,7 +343,7 @@ public class RobotContainer {
     );
 
     //lock wheels
-    new Trigger(() -> main_stick.getRawButton(6)).whileTrue(
+    new Trigger(() -> main_stick.getRawButton(10)).whileTrue(
       new RunCommand(() -> {
         m_drive.setModuleMode(true);
         lockSwerve = true;
@@ -400,13 +400,13 @@ public class RobotContainer {
 
     //sequence 1
     //run shooter and such + intake goes in and out
-    new Trigger(() -> (second_stick.getRawButton(6) || second_stick.getRawAxis(3) >= 0.2)).whileTrue(
+    new Trigger(() -> (second_stick.getRawButton(10) || second_stick.getRawAxis(3) >= 0.2)).whileTrue(
       new StartEndCommand(() -> {
         //only run if were not running the other sequence and were not already running this sequence
         if (!runningSequence2 && !runningSequence1) {
         runningSequence1 = true;
         //start shooter first
-        boolean autoDist = (second_stick.getRawButton(6));
+        boolean autoDist = (second_stick.getRawButton(10));
         m_shooter.setModes(true, false, autoDist, false);
           // 90 is where we usually are, so a good number to rev up to
         //give shooter time to rev up
@@ -432,7 +432,7 @@ public class RobotContainer {
         }
       }));
 
-      new Trigger(() -> second_stick.getRawButton(6) || second_stick.getRawAxis(3) >= 0.2).whileTrue(
+      new Trigger(() -> second_stick.getRawButton(10) || second_stick.getRawAxis(3) >= 0.2).whileTrue(
         new InstantCommand(() -> {
           if (runningSequence1 || runningSequence2) {
             if (second_stick.getRawAxis(3) >= 0.2) {
@@ -511,9 +511,9 @@ public class RobotContainer {
     // );
 
     //old control
-    new Trigger(() -> second_stick.getRawButton(3)).whileTrue(
+    new Trigger(() -> second_stick.getRawButton(2)).whileTrue(
       new RunCommand(() -> {
-        boolean forward = !second_stick.getRawButton(5);
+        boolean forward = !second_stick.getRawButton(9);
         m_intake.setModes(direction.IGNORE, intakeMode.MANUAL);
         if (forward) {
           m_intake.setIntakeDirection(intakeDirection.IN);
@@ -536,9 +536,9 @@ public class RobotContainer {
     // );
 
     //old control
-    new Trigger(() -> (second_stick.getRawButton(2))).whileTrue(
+    new Trigger(() -> (second_stick.getRawButton(1))).whileTrue(
       new RunCommand(() -> {
-        int mult = second_stick.getRawButton(5) ? -1 : 1;
+        int mult = second_stick.getRawButton(9) ? -1 : 1;
         m_agitator.runAgitation(mult);
         m_agitator.runGate(mult);
       }
@@ -551,10 +551,10 @@ public class RobotContainer {
     // shooter bindings
 
     //old control
-    new Trigger(() -> (second_stick.getRawButton(4)) || second_stick.getRawButton(1)).whileTrue(
+    new Trigger(() -> (second_stick.getRawButton(3)) || second_stick.getRawButton(0)).whileTrue(
         new RunCommand(() -> {
-          boolean reversed = second_stick.getRawButton(5);
-          boolean againstHub = second_stick.getRawButton(1);
+          boolean reversed = second_stick.getRawButton(9);
+          boolean againstHub = second_stick.getRawButton(0);
           m_shooter.setModes(true, reversed, true, againstHub);
         })
           .finallyDo(() -> {
