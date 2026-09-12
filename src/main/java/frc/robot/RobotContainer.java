@@ -295,7 +295,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     //MAIN STICK -------------------------
-    new JoystickButton(main_stick, 8).onTrue(
+    new JoystickButton(main_stick, 6).onTrue(
       new InstantCommand(() -> {
         m_drive.refreshAlliance();
         m_drive.resetGyroAngle();
@@ -303,7 +303,7 @@ public class RobotContainer {
     );
 
     //stop intake
-    new JoystickButton(main_stick, 3).onTrue(
+    new JoystickButton(main_stick, 2).onTrue(
       new InstantCommand(() -> {
         m_intake.setIntakeDirection(intakeDirection.OFF);
         m_intake.setModes(direction.IGNORE, intakeMode.MANUAL);
@@ -311,7 +311,7 @@ public class RobotContainer {
     );
 
     //extend hopper
-    new JoystickButton(main_stick, 5).onTrue(
+    new JoystickButton(main_stick, 9).onTrue(
       new InstantCommand(() -> {
         m_intake.extendArm();
         m_intake.setModes(direction.EXTENDING, intakeMode.AUTOMATIC);
@@ -320,7 +320,7 @@ public class RobotContainer {
     );
 
     //retract hopper
-    new JoystickButton(main_stick, 4).onTrue(
+    new JoystickButton(main_stick, 3).onTrue(
       new InstantCommand(() -> {
         m_intake.retractArm();
         m_intake.setModes(direction.RETRACTING, intakeMode.AUTOMATIC);
