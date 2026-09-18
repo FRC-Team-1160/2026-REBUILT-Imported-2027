@@ -120,7 +120,8 @@ public class RobotContainer {
     redRightBumpAuto,
     blueRightBumpAuto,
     redLeftBumpAuto,
-    blueLeftBumpAuto
+    blueLeftBumpAuto,
+    new PathPlannerAuto("Test Shooter Auto")
   };
 
   //The robot's subsystems and commands are defined here...
@@ -140,6 +141,7 @@ public class RobotContainer {
     autoChooser2.addOption("Red Left Bump", 2);
     autoChooser2.addOption("Blue Left Bump", 3);
     autoChooser2.addOption("Center Shoot", 4);
+    autoChooser2.addOption("Test Shooter Auto", 5);
 
     //autoChooser2.addOption("Start Hub", "RED Bump Intake Right");
 
@@ -258,12 +260,12 @@ public class RobotContainer {
     double angle_radiansPerSecond;
 
     // if pressing button 6 then we align to the hub
-    if ((main_stick.getRawAxis(2) >= 0.2)) {
+    if ((main_stick.getRawAxis(4) >= 0.2)) {
       angle_radiansPerSecond = m_drive.getTurnToHub(); //* (m_limelightio.blueAlliance == true ? 1 : -1);
       SmartDashboard.putBoolean("align attemp", true);
     } else {  
-      angle_radiansPerSecond = (Math.abs(main_stick.getRawAxis(4)) < 0.2) ? 0 : -3 * Math.signum(main_stick.getRawAxis(4))
-      * Math.pow(main_stick.getRawAxis(4), 2) * rotationMult;
+      angle_radiansPerSecond = (Math.abs(main_stick.getRawAxis(2)) < 0.2) ? 0 : -3 * Math.signum(main_stick.getRawAxis(2))
+      * Math.pow(main_stick.getRawAxis(2), 2) * rotationMult;
       SmartDashboard.putBoolean("align attemp", false);
     }
     //negative turn values go right, positive go left
@@ -386,7 +388,7 @@ public class RobotContainer {
 
     //sequence 1
     //run shooter and such + intake goes in and out
-    new Trigger(() -> (second_stick.getRawButton(10) || second_stick.getRawAxis(3) >= 0.2)).whileTrue(
+    new Trigger(() -> (second_stick.getRawButton(10) || second_stick.getRawAxis(2 ) >= 0.2)).whileTrue(
       new StartEndCommand(() -> {
         //only run if were not running the other sequence and were not already running this sequence
         if (!runningSequence2 && !runningSequence1) {
@@ -455,14 +457,14 @@ public class RobotContainer {
 
     //extend/retract hopper
     //new control
-    new Trigger(() -> second_stick.getDirectionDegrees() == 0).onTrue(
+    new Trigger(() -> second_stick.getRawButton(11)).onTrue(
       new InstantCommand(() -> {
         m_intake.extendArm();
         m_intake.setModes(direction.EXTENDING, intakeMode.MANUAL);
         m_intake.setIntakeDirection(intakeDirection.OFF);
     }));
 
-    new Trigger(() -> second_stick.getDirectionDegrees() == 180).onTrue(
+    new Trigger(() -> second_stick.getRawButton(12)).onTrue(
       new InstantCommand(() -> {
         m_intake.retractArm();
         m_intake.setModes(direction.RETRACTING, intakeMode.AUTOMATIC);
@@ -553,6 +555,10 @@ public class RobotContainer {
         m_agitator.runGate(1);
       })
     );
+    } else if (autoNum == 5) {
+      // for testing ignore otherwise
+      return autos[4];  // fahhhh
+      // TODO make center shoot and the rest real auto instead of whatever this is
     } else {
       PathPlannerAuto m_auto = autos[autoNum];
       return m_auto;

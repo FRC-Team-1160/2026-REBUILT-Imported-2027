@@ -172,6 +172,8 @@ public class Shooter extends SubsystemBase {
             // bottomRollerRPS *= 0.5;
             // bottomRollerFF *= 0.5; //juggle
 
+            // TODO bottomRollerRPS not used
+
             if (!testingShooter) {
                 nearBottomRollerMotor.setControl(bottomMotor_request.withVelocity(-23).withFeedForward(bottomRollerFF));
                 topRollerMotor.setControl(topMotor_request.withVelocity(topRollerRPS).withFeedForward(getVoltageFromRPS(topRollerRPS)));
